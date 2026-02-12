@@ -14,6 +14,7 @@
   // Each game has a unique growth "personality" (min/max daily gain range)
   const GAMES = {
     "Vegas Sweeps": { base: 78500, min: 28, max: 55 },
+    "Game Room 777": { base: 72000, min: 26, max: 52 },
     "Game Room777": { base: 72000, min: 26, max: 52 },
     "Fire Kirin": { base: 80000, min: 30, max: 58 },
     "Game Vault": { base: 58940, min: 25, max: 50 },
@@ -78,7 +79,8 @@
     const days = daysSince();
     let totalNewMembers = 0;
 
-    document.querySelectorAll(".game-card").forEach(function (card) {
+    // Process both sign-up cards and download cards
+    document.querySelectorAll(".game-card, .dl-game-card").forEach(function (card) {
       const nameEl = card.querySelector(".gc-name");
       if (!nameEl) return;
       const name = nameEl.textContent.trim();
@@ -89,14 +91,17 @@
       const current = cfg.base + gained;
       totalNewMembers += gained;
 
-      const metaSpans = card.querySelectorAll(".gc-meta span");
-      if (metaSpans.length > 0) {
-        const span = metaSpans[0];
-        const icon = span.querySelector("ion-icon");
-        span.textContent = "";
-        if (icon) span.appendChild(icon);
-        span.append(" " + formatK(current));
-      }
+      // Update user count in card meta
+      const metaSpans = card.querySelectorAll(".gc-meta span, .dl-game-info span");
+      metaSpans.forEach(function (span) {
+        if (span.querySelector('ion-icon[name="people"]')) {
+          const icon = span.querySelector("ion-icon");
+          span.textContent = "";
+          if (icon) span.appendChild(icon);
+          span.append(" " + formatK(current));
+          span.setAttribute("data-count", current);
+        }
+      });
     });
 
     // Registered users total
@@ -177,9 +182,84 @@
     setTimeout(tick, 3000 + Math.random() * 2000);
   }
 
+  /* ===== LIVE CARD COUNT TICKER ===== */
+  function startCardTicker() {
+    // Every 15-40s, pick a random game card and bump its count by 1
+    function tick() {
+      var spans = document.querySelectorAll('.gc-meta span[data-count], .dl-game-info span[data-count]');
+      if (spans.length === 0) return;
+      var idx = Math.floor(Math.random() * spans.length);
+      var span = spans[idx];
+      var current = parseInt(span.getAttribute('data-count'), 10);
+      if (isNaN(current)) return;
+      current += 1;
+      span.setAttribute('data-count', current);
+      var icon = span.querySelector('ion-icon');
+      span.textContent = '';
+      if (icon) span.appendChild(icon);
+      span.append(' ' + formatK(current));
+      // Brief highlight flash
+      span.style.transition = 'color 0.3s';
+      span.style.color = '#10b981';
+      setTimeout(function() { span.style.color = ''; }, 600);
+
+      var delay = 15000 + Math.random() * 25000;
+      setTimeout(tick, delay);
+    }
+    setTimeout(tick, 8000 + Math.random() * 5000);
+  }
+
+  /* ===== COUNT-UP ANIMATION ON SCROLL ===== */
+  function animateCountUp(el, target, suffix) {
+    if (el.dataset.animated) return;
+    el.dataset.animated = '1';
+    var start = 0;
+    var duration = 1500;
+    var startTime = null;
+    function step(ts) {
+      if (!startTime) startTime = ts;
+      var progress = Math.min((ts - startTime) / duration, 1);
+      // Ease-out cubic
+      var eased = 1 - Math.pow(1 - progress, 3);
+      var current = Math.floor(eased * target);
+      el.textContent = formatK(current) + (suffix || '');
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  function initCountUpObserver() {
+    var socialNums = document.querySelectorAll('.social-stat .num');
+    if (!socialNums.length) return;
+
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          var el = entry.target;
+          var text = el.textContent.trim();
+          // Parse values like "512K+", "$2.4M+", "16", "4.9 ★"
+          if (text.match(/^[\d,.]+[kK]\+?$/)) {
+            var n = parseFloat(text) * 1000;
+            animateCountUp(el, n, '+');
+          } else if (text.match(/^\$[\d.]+M\+?$/)) {
+            // Skip $ amounts — keep as-is but do a simple fade
+            el.dataset.animated = '1';
+          } else if (text === '16') {
+            animateCountUp(el, 16, '');
+          }
+          observer.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    socialNums.forEach(function(el) { observer.observe(el); });
+  }
+
   /* ===== INIT ===== */
   updateCounts();
   initOnlineCounter();
+  startCardTicker();
+  initCountUpObserver();
 
   // Refresh counts at midnight
   var now = new Date();
