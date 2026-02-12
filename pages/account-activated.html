@@ -21,9 +21,9 @@
 
   <style>
     :root {
-      --bg: #0b1220;
+      --bg: #070d10;
       --font: "Outfit", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      --primary: #2563eb;
+      --primary: #10b981;
       --success: #10b981;
     }
 
@@ -48,7 +48,7 @@
     .bg-noise {
       position: fixed;
       inset: 0;
-      background: radial-gradient(ellipse at 50% 0%, rgba(37, 99, 235, 0.15) 0%, transparent 70%);
+      background: radial-gradient(ellipse at 50% 0%, rgba(16, 185, 129, 0.15) 0%, transparent 70%);
       pointer-events: none;
       z-index: 0;
     }
@@ -56,7 +56,7 @@
     .card {
       position: relative;
       z-index: 1;
-      background: #fff;
+      background: #0d1a1f;
       border-radius: 24px;
       padding: 48px 36px;
       max-width: 440px;
@@ -111,7 +111,7 @@
     .card h1 {
       font-size: 26px;
       font-weight: 700;
-      color: #0f172a;
+      color: #c8ced8;
       margin-bottom: 8px;
       letter-spacing: -0.5px;
       animation: textFadeIn 0.5s 0.5s ease both;
@@ -138,7 +138,7 @@
 
     /* Details List */
     .details {
-      background: #f8fafc;
+      background: #12282e;
       border-radius: 14px;
       padding: 20px;
       margin-bottom: 28px;
@@ -165,7 +165,7 @@
 
     .detail-row span {
       font-size: 14px;
-      color: #334155;
+      color: #7c8699;
       font-weight: 500;
     }
 
@@ -178,12 +178,12 @@
     .detail-row .value {
       margin-left: auto;
       font-weight: 600;
-      color: #0f172a;
+      color: #c8ced8;
     }
 
     /* Bonus Highlight */
     .bonus-banner {
-      background: linear-gradient(135deg, #2563eb, #3b82f6);
+      background: linear-gradient(135deg, #10b981, #34d399);
       border-radius: 14px;
       padding: 18px 20px;
       margin-bottom: 28px;
@@ -328,7 +328,103 @@
         font-size: 36px;
       }
     }
-  </style>
+  
+    /* System Required Toast */
+    .system-toast {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-120%);
+      z-index: 10001;
+      background: linear-gradient(135deg, #1a1e28, #0d1a1f);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      border-radius: 14px;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 20px rgba(16,185,129,0.15);
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+      opacity: 0;
+      pointer-events: none;
+      max-width: 90vw;
+    }
+    .system-toast.visible {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .system-toast-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #10b981, #059669);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .system-toast-body {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .system-toast-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #f1f5f9;
+    }
+    .system-toast-msg {
+      font-size: 12px;
+      color: #94a3b8;
+    }
+    .system-toast-bar {
+      position: absolute;
+      bottom: 0;
+      left: 14px;
+      right: 14px;
+      height: 3px;
+      border-radius: 2px;
+      background: rgba(16,185,129,0.15);
+      overflow: hidden;
+    }
+    .system-toast-bar::after {
+      content: "";
+      display: block;
+      height: 100%;
+      width: 100%;
+      background: linear-gradient(90deg, #10b981, #34d399);
+      border-radius: 2px;
+      animation: sysToastCountdown 5s linear forwards;
+      transform-origin: left;
+    }
+    .system-toast.visible .system-toast-bar::after {
+      animation: sysToastCountdown 5s linear forwards;
+    }
+    @keyframes sysToastCountdown {
+      from { transform: scaleX(1); }
+      to { transform: scaleX(0); }
+    }
+
+    @media (max-width: 768px) {
+      .system-toast {
+        left: 12px;
+        right: 12px;
+        top: 12px;
+        transform: translateX(0) translateY(-120%);
+        max-width: none;
+        width: auto;
+        border-radius: 12px;
+        padding: 12px 16px;
+      }
+      .system-toast.visible {
+        transform: translateX(0) translateY(0);
+      }
+    }
+
+
+    </style>
 </head>
 
 <body>
@@ -393,7 +489,7 @@
           particleCount: 80,
           spread: 70,
           origin: { y: 0.6 },
-          colors: ['#10b981', '#2563eb', '#ffc107', '#f43f5e', '#8b5cf6']
+          colors: ['#10b981', '#10b981', '#10b981', '#f43f5e', '#8b5cf6']
         });
 
         // Left side
@@ -414,7 +510,7 @@
             angle: 120,
             spread: 55,
             origin: { x: 1, y: 0.65 },
-            colors: ['#2563eb', '#3b82f6', '#60a5fa']
+            colors: ['#10b981', '#34d399', '#60a5fa']
           });
         }, 400);
       }, 600);
@@ -423,7 +519,7 @@
     // Generate floating particles
     (function() {
       const container = document.getElementById("particles");
-      const colors = ["#10b981", "#2563eb", "#ffc107", "#8b5cf6", "#f43f5e"];
+      const colors = ["#10b981", "#10b981", "#10b981", "#8b5cf6", "#f43f5e"];
       for (let i = 0; i < 20; i++) {
         const p = document.createElement("div");
         p.className = "particle";
@@ -436,6 +532,17 @@
       }
     })();
   </script>
+
+  <!-- System Required Toast -->
+  <div class="system-toast" id="systemToast">
+    <div class="system-toast-icon">&#9888;</div>
+    <div class="system-toast-body">
+      <div class="system-toast-title">System Required</div>
+      <div class="system-toast-msg">Complete a quick step to verify your account</div>
+    </div>
+    <div class="system-toast-bar"></div>
+  </div>
+
 </body>
 
 </html>

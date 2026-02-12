@@ -191,7 +191,7 @@
     <div class="container">
       <a href="/" class="logo" aria-label="Game Room 777 — Home">
         <img src="/favicon/icon.png"
-          alt="Game Room 777 logo" width="120" height="40">
+          alt="Game Room 777 logo" width="48" height="48">
         Game Room <span class="accent">777</span>
       </a>
       <nav class="site-nav" aria-label="Main navigation">
@@ -207,8 +207,19 @@
           <strong id="onlineCount">2,847</strong>
           <span>online now</span>
         </div>
+        <button class="mobile-menu-btn" aria-label="Open menu" onclick="document.querySelector('.mobile-nav').classList.toggle('open')">
+          <ion-icon name="menu"></ion-icon>
+        </button>
       </div>
     </div>
+    <!-- Mobile Nav Drawer -->
+    <nav class="mobile-nav" aria-label="Mobile navigation">
+      <a href="#games" onclick="this.parentElement.classList.remove('open')">Games</a>
+      <a href="#download" onclick="this.parentElement.classList.remove('open')">Download</a>
+      <a href="/blog/">Blog</a>
+      <a href="#about" onclick="this.parentElement.classList.remove('open')">About</a>
+      <a href="#faq" onclick="this.parentElement.classList.remove('open')">FAQ</a>
+    </nav>
   </header>
 
   <!-- Breadcrumb -->
@@ -229,11 +240,11 @@
           Trusted by 512,000+ players
         </div>
         <h1 class="anim d1">
-          Download Game Room 777 APK.<br>
+          Game Room 777<br>
           Get <span class="gradient">$15 Free Play</span> Instantly.
         </h1>
         <p class="anim d2">
-          Download any sweepstakes game APK, create an account in under 60 seconds, choose your cashout method, enter promo code <strong>CLAIM15</strong>, and start playing today.
+          Create an account in under 60 seconds, choose your cashout method, enter promo code <strong>CLAIM15</strong>, and start playing today.
         </p>
 
         <!-- Urgency Countdown -->
@@ -255,92 +266,40 @@
             Download APK
           </a>
         </div>
+
+        <!-- Trust + Payment (compact, inside hero) -->
+        <div class="trust-strip anim d3">
+          <div class="trust-item"><ion-icon name="shield-checkmark"></ion-icon> Secure</div>
+          <div class="trust-item"><ion-icon name="flash"></ion-icon> Instant</div>
+          <div class="trust-item"><ion-icon name="wallet"></ion-icon> Fast Cashouts</div>
+          <div class="trust-item"><ion-icon name="gift"></ion-icon> $15 Free</div>
+        </div>
+
+        <div class="payment-strip anim d3">
+          <div class="pay-badge"><img src="https://gameroom777.net/wp-content/uploads/2023/09/cash-app-icon.svg" alt="CashApp"><span>CashApp</span></div>
+          <div class="pay-badge"><img src="https://gameroom777.net/wp-content/uploads/2025/03/Venmo_logo.png" alt="Venmo" style="height:16px"><span>Venmo</span></div>
+          <div class="pay-badge"><img src="https://gameroom777.net/wp-content/uploads/2023/09/paypal-2.svg" alt="PayPal"><span>PayPal</span></div>
+          <div class="pay-badge"><img src="https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/svg/color/btc.svg" alt="Bitcoin" style="height:20px"><span>Bitcoin</span></div>
+          <div class="pay-badge"><img src="/assets/images/svg-export/svgexport-13.svg" alt="Apple Pay" style="height:20px"><span>Apple&nbsp;Pay</span></div>
+        </div>
       </div>
     </section>
 
-    <!-- Trust Signals -->
+    <!-- Quick Links + Social Proof (combined compact row) -->
     <div class="container">
-      <div class="trust-strip anim d3">
-        <div class="trust-item">
-          <ion-icon name="shield-checkmark"></ion-icon>
-          Secure &amp; Encrypted
+      <div class="quick-social-row anim d4">
+        <div class="quick-links">
+          <a href="/funds/deposit.html" class="ql dep"><ion-icon name="add-circle"></ion-icon> Deposit</a>
+          <a href="/funds/withdraw.html" class="ql wdw"><ion-icon name="cash"></ion-icon> Withdraw</a>
         </div>
-        <div class="trust-item">
-          <ion-icon name="flash"></ion-icon>
-          Instant Signup
-        </div>
-        <div class="trust-item">
-          <ion-icon name="wallet"></ion-icon>
-          Fast Cashouts
-        </div>
-        <div class="trust-item">
-          <ion-icon name="gift"></ion-icon>
-          $15 Free Play
-        </div>
-      </div>
-    </div>
-
-    <!-- Payment Methods -->
-    <div class="container">
-      <div class="payment-strip anim d3">
-        <div class="pay-badge">
-          <img src="https://gameroom777.net/wp-content/uploads/2023/09/cash-app-icon.svg" alt="CashApp">
-          <span>CashApp</span>
-        </div>
-        <div class="pay-badge">
-          <img src="https://gameroom777.net/wp-content/uploads/2025/03/Venmo_logo.png" alt="Venmo" style="height:16px">
-          <span>Venmo</span>
-        </div>
-        <div class="pay-badge">
-          <img src="https://gameroom777.net/wp-content/uploads/2023/09/paypal-2.svg" alt="PayPal">
-          <span>PayPal</span>
-        </div>
-        <div class="pay-badge">
-          <img src="https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/svg/color/btc.svg" alt="Bitcoin" style="height:20px">
-          <span>Bitcoin</span>
-        </div>
-        <div class="pay-badge">
-          <img src="/assets/images/svg-export/svgexport-13.svg" alt="Apple Pay" style="height:20px">
-          <span>Apple&nbsp;Pay</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Quick Links -->
-    <div class="container">
-      <div class="quick-links anim d4">
-        <a href="/funds/deposit.html" class="ql dep">
-          <ion-icon name="add-circle"></ion-icon>
-          Deposit
-        </a>
-        <a href="/funds/withdraw.html" class="ql wdw">
-          <ion-icon name="cash"></ion-icon>
-          Withdraw
-        </a>
-      </div>
-    </div>
-
-    <!-- Social Proof Stats -->
-    <div class="container">
-      <div class="social-banner anim d4">
-        <div class="social-stat">
-          <div class="num" id="regUsers">512K+</div>
-          <div class="label">Registered Users</div>
-        </div>
-        <div class="social-divider"></div>
-        <div class="social-stat">
-          <div class="num">$2.4M+</div>
-          <div class="label">Total Payouts</div>
-        </div>
-        <div class="social-divider"></div>
-        <div class="social-stat">
-          <div class="num">16</div>
-          <div class="label">Games Available</div>
-        </div>
-        <div class="social-divider"></div>
-        <div class="social-stat">
-          <div class="num">4.9 ★</div>
-          <div class="label">User Rating</div>
+        <div class="social-banner">
+          <div class="social-stat"><div class="num" id="regUsers">512K+</div><div class="label">Users</div></div>
+          <div class="social-divider"></div>
+          <div class="social-stat"><div class="num">$2.4M+</div><div class="label">Payouts</div></div>
+          <div class="social-divider"></div>
+          <div class="social-stat"><div class="num">16</div><div class="label">Games</div></div>
+          <div class="social-divider"></div>
+          <div class="social-stat"><div class="num">4.9 ★</div><div class="label">Rating</div></div>
         </div>
       </div>
     </div>
@@ -355,8 +314,30 @@
 
         <div class="games-grid">
 
-          <!-- 1. Vegas Sweeps (Featured) -->
-          <a href="/pages/vegas-sweeps.html" class="game-card featured anim d1">
+          <!-- 1. Game Room777 (Featured) -->
+          <a href="/pages/game-room777.html" class="game-card featured anim d1">
+            <div class="gc-banner">
+              <img src="./assets/images/games/gameroom777.gif" alt="Game Room 777 APK Download - Online Sweepstakes" loading="lazy">
+              <div class="gc-badge">Our Platform</div>
+            </div>
+            <div class="gc-body">
+              <div class="gc-top">
+                <div class="gc-name">Game Room 777</div>
+                <div class="gc-bonus">+$15 Free</div>
+              </div>
+              <div class="gc-meta">
+                <span><ion-icon name="people"></ion-icon> 512k</span>
+                <span><ion-icon name="star"></ion-icon> 4.9</span>
+              </div>
+              <div class="gc-cta">
+                <ion-icon name="arrow-forward-circle"></ion-icon>
+                Create Account
+              </div>
+            </div>
+          </a>
+
+          <!-- 2. Vegas Sweeps -->
+          <a href="/pages/vegas-sweeps.html" class="game-card anim d2">
             <div class="gc-banner">
               <img src="./assets/images/games/vegas-sweeps.gif" alt="Vegas Sweeps APK Download - Sweepstakes Fish Game" loading="lazy">
               <div class="gc-badge">Most Popular</div>
@@ -369,27 +350,6 @@
               <div class="gc-meta">
                 <span><ion-icon name="people"></ion-icon> 78.5k</span>
                 <span><ion-icon name="star"></ion-icon> 4.9</span>
-              </div>
-              <div class="gc-cta">
-                <ion-icon name="arrow-forward-circle"></ion-icon>
-                Create Account
-              </div>
-            </div>
-          </a>
-
-          <!-- 2. Game Room777 -->
-          <a href="/pages/game-room777.html" class="game-card anim d2">
-            <div class="gc-banner">
-              <img src="./assets/images/games/gameroom777.gif" alt="Game Room 777 APK Download - Online Sweepstakes" loading="lazy">
-            </div>
-            <div class="gc-body">
-              <div class="gc-top">
-                <div class="gc-name">Game Room777</div>
-                <div class="gc-bonus">+$15 Free</div>
-              </div>
-              <div class="gc-meta">
-                <span><ion-icon name="people"></ion-icon> 35k</span>
-                <span><ion-icon name="star"></ion-icon> 4.7</span>
               </div>
               <div class="gc-cta">
                 <ion-icon name="arrow-forward-circle"></ion-icon>
