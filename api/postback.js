@@ -1,15 +1,15 @@
 /**
- * Game Vault 999 — Postback Handler
+ * Game Room 777 — Postback Handler
  * 
  * Receives conversion postbacks from the ad network when a user completes an offer.
  * Stores the conversion data in Firebase Firestore for real-time dashboard tracking.
  * 
  * POSTBACK URL to set in your ad network:
- * https://gamevault999apk.com/api/postback?offer_id={offer_id}&offer_name={offer_name}&payout={payout}&payout_cents={payout_cents}&ip={ip}&status={status}&unix={unix}&s1={s1}&s2={s2}&lead_id={lead_id}&click_id={click_id}&country_code={country_code}
+ * https://gameroom777.io/api/postback?offer_id={offer_id}&offer_name={offer_name}&payout={payout}&payout_cents={payout_cents}&ip={ip}&status={status}&unix={unix}&s1={s1}&s2={s2}&lead_id={lead_id}&click_id={click_id}&country_code={country_code}
  */
 
 // Firebase Admin SDK (lightweight REST approach — no npm needed)
-const FIREBASE_PROJECT = 'vegassweeps-analytics';
+const FIREBASE_PROJECT = 'YOUR_FIREBASE_PROJECT'; // TODO: Replace with your Firebase project ID
 const FIRESTORE_BASE = `https://firestore.googleapis.com/v1/projects/${FIREBASE_PROJECT}/databases/(default)/documents`;
 
 module.exports = async function handler(req, res) {

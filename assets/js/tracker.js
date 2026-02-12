@@ -1,5 +1,5 @@
 /**
- * Game Vault 999 — Analytics Tracker
+ * Game Room 777 — Analytics Tracker
  * Tracks page views, signup events, offer completions, and geo data
  * Stores everything in Firebase Firestore (free tier)
  *
@@ -14,12 +14,12 @@
      FIREBASE CONFIG — Replace with YOUR project credentials
      ========================================================== */
   const firebaseConfig = {
-    apiKey: "AIzaSyBcbWyAERVCw3fOadYUdB7TNVXBbZdIsHE",
-    authDomain: "vegassweeps-analytics.firebaseapp.com",
-    projectId: "vegassweeps-analytics",
-    storageBucket: "vegassweeps-analytics.firebasestorage.app",
-    messagingSenderId: "760086690909",
-    appId: "1:760086690909:web:fb462a71c84c88ee8321b4",
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    projectId: "YOUR_PROJECT",
+    storageBucket: "YOUR_PROJECT.firebasestorage.app",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID",
   };
 
   /* ==========================================================
@@ -298,7 +298,7 @@
 
   // Coupon code applied
   function trackCouponApplied(code) {
-    trackEvent("coupon_applied", { couponCode: code || "CLAIM10" });
+    trackEvent("coupon_applied", { couponCode: code || "CLAIM15" });
     incrementDaily("coupons_applied");
   }
 

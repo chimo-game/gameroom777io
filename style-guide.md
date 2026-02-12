@@ -1,7 +1,7 @@
-# Game Vault 999 — Style Guide
+# Game Room 777 — Style Guide
 
-> **Domain:** gamevault999apk.com
-> **Project:** Game Vault 999 — Sweepstakes Gaming Platform
+> **Domain:** gameroom777.io
+> **Project:** Game Room 777 — Sweepstakes Gaming Platform
 > **Last Updated:** 2026-02-11
 
 ---
@@ -10,9 +10,9 @@
 
 | Property       | Value                              |
 | -------------- | ---------------------------------- |
-| **Brand Name** | Game Vault 999                     |
+| **Brand Name** | Game Room 777                     |
 | **Tagline**    | Play. Win. Cash Out.               |
-| **Domain**     | gamevault999apk.com                |
+| **Domain**     | gameroom777.io                |
 | **Tone**       | Bold, trustworthy, high-energy     |
 | **Audience**   | Mobile gamers, sweepstakes players |
 
@@ -226,10 +226,10 @@ background: linear-gradient(135deg, #10b981, #059669);
 
 | Tag                 | Pattern                                                    |
 | ------------------- | ---------------------------------------------------------- |
-| `<title>`           | `{Page} | Game Vault 999 APK Download`                     |
-| `meta description`  | Under 160 chars, include "Game Vault 999" + page focus     |
-| `canonical`         | `https://gamevault999apk.com/{path}`                       |
-| `og:site_name`      | `Game Vault 999`                                           |
+| `<title>`           | `{Page} | Game Room 777 APK Download`                     |
+| `meta description`  | Under 160 chars, include "Game Room 777" + page focus     |
+| `canonical`         | `https://gameroom777.io/{path}`                       |
+| `og:site_name`      | `Game Room 777`                                           |
 | `og:image`          | Game-specific GIF or site logo                             |
 | Schema.org          | Organization + WebPage + WebSite graph on every page       |
 

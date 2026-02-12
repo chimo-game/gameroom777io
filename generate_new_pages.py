@@ -34,25 +34,25 @@ def generate_page(game_name, game_slug, image_url):
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
-  <title>Sign Up for {GAME_NAME} | Claim $10 Free Play Bonus</title>
-  <meta name="description" content="Create your {GAME_NAME} account in under a minute. Choose your cashout method and claim a $10 Free Play bonus with code CLAIM10." />
+  <title>Sign Up for {GAME_NAME} | Claim $15 Free Play Bonus</title>
+  <meta name="description" content="Create your {GAME_NAME} account in under a minute. Choose your cashout method and claim a $15 Free Play bonus with code CLAIM15." />
   <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
-  <link rel="canonical" href="https://gamevault999apk.com/{GAME_SLUG}/" />
+  <link rel="canonical" href="https://gameroom777.io/{GAME_SLUG}/" />
 
   <link rel="icon" href="/favicon/icon.png" type="image/png" />
   <link rel="apple-touch-icon" href="/favicon/icon.png" />
 
   <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="Game Vault 999" />
-  <meta property="og:title" content="Sign Up for {GAME_NAME} | Claim $10 Free Play Bonus" />
-  <meta property="og:description" content="Fast signup. Pick your cashout method and claim $10 Free Play with code CLAIM10." />
-  <meta property="og:url" content="https://gamevault999apk.com/{GAME_SLUG}/" />
+  <meta property="og:site_name" content="Game Room 777" />
+  <meta property="og:title" content="Sign Up for {GAME_NAME} | Claim $15 Free Play Bonus" />
+  <meta property="og:description" content="Fast signup. Pick your cashout method and claim $15 Free Play with code CLAIM15." />
+  <meta property="og:url" content="https://gameroom777.io/{GAME_SLUG}/" />
   <meta property="og:image" content="{IMAGE_URL}" />
   <meta property="og:image:alt" content="{GAME_NAME} logo" />
 
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Sign Up for {GAME_NAME} | Claim $10 Free Play Bonus" />
-  <meta name="twitter:description" content="Create your account and claim $10 Free Play with promo code CLAIM10." />
+  <meta name="twitter:title" content="Sign Up for {GAME_NAME} | Claim $15 Free Play Bonus" />
+  <meta name="twitter:description" content="Create your account and claim $15 Free Play with promo code CLAIM15." />
   <meta name="twitter:image" content="{IMAGE_URL}" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -65,25 +65,25 @@ def generate_page(game_name, game_slug, image_url):
     "@graph": [
       {{
         "@type": "Organization",
-        "@id": "https://gamevault999apk.com/#organization",
-        "name": "Game Vault 999",
-        "url": "https://gamevault999apk.com/",
+        "@id": "https://gameroom777.io/#organization",
+        "name": "Game Room 777",
+        "url": "https://gameroom777.io/",
         "logo": "{IMAGE_URL}"
       }},
       {{
         "@type": "WebPage",
-        "@id": "https://gamevault999apk.com/{GAME_SLUG}/#webpage",
-        "url": "https://gamevault999apk.com/{GAME_SLUG}/",
+        "@id": "https://gameroom777.io/{GAME_SLUG}/#webpage",
+        "url": "https://gameroom777.io/{GAME_SLUG}/",
         "name": "Sign Up for {GAME_NAME}",
-        "description": "Create your {GAME_NAME} account, choose your cashout method, and claim a $10 Free Play bonus with code CLAIM10.",
-        "isPartOf": {{ "@id": "https://gamevault999apk.com/#website" }},
-        "about": {{ "@id": "https://gamevault999apk.com/#organization" }}
+        "description": "Create your {GAME_NAME} account, choose your cashout method, and claim a $15 Free Play bonus with code CLAIM15.",
+        "isPartOf": {{ "@id": "https://gameroom777.io/#website" }},
+        "about": {{ "@id": "https://gameroom777.io/#organization" }}
       }},
       {{
         "@type": "WebSite",
-        "@id": "https://gamevault999apk.com/#website",
-        "url": "https://gamevault999apk.com/",
-        "name": "Game Vault 999"
+        "@id": "https://gameroom777.io/#website",
+        "url": "https://gameroom777.io/",
+        "name": "Game Room 777"
       }}
     ]
   }}
@@ -642,7 +642,7 @@ def generate_page(game_name, game_slug, image_url):
     <div class="offer-left">
       <div class="gift" aria-hidden="true"><ion-icon name="gift"></ion-icon></div>
       <div class="offer-text">
-        Claim your <b>$10 Free Play</b> with code <span class="code">CLAIM10</span>
+        Claim your <b>$15 Free Play</b> with code <span class="code">CLAIM15</span>
       </div>
     </div>
     <div class="offer-actions">
@@ -665,7 +665,7 @@ def generate_page(game_name, game_slug, image_url):
       <div class="steps">
         <div class="step" id="step1"><div class="badge"></div><span>Checking your details</span></div>
         <div class="step" id="step2"><div class="badge"></div><span>Connecting <b id="payNameDisplay">CashApp</b> cashout method</span></div>
-        <div class="step" id="step3"><div class="badge"></div><span>Applying <b style="color:var(--primary)">$10</b> bonus</span></div>
+        <div class="step" id="step3"><div class="badge"></div><span>Applying <b style="color:var(--primary)">$15</b> bonus</span></div>
         <div class="step" id="step4"><div class="badge"></div><span>Final verification</span></div>
       </div>
     </div>
@@ -747,7 +747,7 @@ def generate_page(game_name, game_slug, image_url):
                     <div class="coupon-icon-box">
                         <ion-icon name="ticket-outline"></ion-icon>
                     </div>
-                    <input class="coupon-input" type="text" id="coupon" placeholder="Code (e.g. CLAIM10)" autocomplete="off">
+                    <input class="coupon-input" type="text" id="coupon" placeholder="Code (e.g. CLAIM15)" autocomplete="off">
                     <button type="button" class="modern-apply-btn" id="btnApply" disabled>
                         <span class="btn-text">Apply</span>
                         <div class="btn-loader"></div>
@@ -756,7 +756,7 @@ def generate_page(game_name, game_slug, image_url):
 
                 <div class="success-ticket" id="successTicket">
                     <div class="ticket-left">
-                        <div class="ticket-amount">$10</div>
+                        <div class="ticket-amount">$15</div>
                         <div class="ticket-label">BONUS ACTIVE</div>
                     </div>
                     <div class="ticket-right">
@@ -768,7 +768,7 @@ def generate_page(game_name, game_slug, image_url):
                 </div>
             </div>
             
-            <div class="hint" id="cHint">Recommended: CLAIM10</div>
+            <div class="hint" id="cHint">Recommended: CLAIM15</div>
         </div>
 
         <div class="cta">
@@ -787,7 +787,7 @@ def generate_page(game_name, game_slug, image_url):
       <div class="benefit">
         <h3>What you get today</h3>
         <div class="list">
-          <div class="li"><div class="tick"><ion-icon name="checkmark"></ion-icon></div><div><b>$10 Free Play</b> when code is applied</div></div>
+          <div class="li"><div class="tick"><ion-icon name="checkmark"></ion-icon></div><div><b>$15 Free Play</b> when code is applied</div></div>
           <div class="li"><div class="tick"><ion-icon name="checkmark"></ion-icon></div><div>Fast signup in under a minute</div></div>
           <div class="li"><div class="tick"><ion-icon name="checkmark"></ion-icon></div><div>Pick your preferred cashout method now</div></div>
         </div>
@@ -871,7 +871,7 @@ def generate_page(game_name, game_slug, image_url):
     barClose.addEventListener("click", () => offerBar.style.display = "none");
     
     barApply.addEventListener("click", () => {{
-       coupon.value = "CLAIM10";
+       coupon.value = "CLAIM15";
        coupon.dispatchEvent(new Event('input'));
        btnApply.click();
     }});
@@ -882,7 +882,7 @@ def generate_page(game_name, game_slug, image_url):
             btnApply.classList.add('is-ready');
             btnApply.disabled = false;
             wrapper.classList.remove('shake');
-            cHint.innerText = 'Recommended: CLAIM10';
+            cHint.innerText = 'Recommended: CLAIM15';
             cHint.style.color = 'var(--muted)';
         }} else {{
             btnApply.classList.remove('is-ready');
@@ -898,7 +898,7 @@ def generate_page(game_name, game_slug, image_url):
         setTimeout(() => {{
             btnApply.classList.remove('loading');
             
-            const ok = ["CLAIM10", "FREEPLAY", "BONUS"].includes(val);
+            const ok = ["CLAIM15", "FREEPLAY", "BONUS"].includes(val);
             
             if (ok) {{
                 triggerSuccess();
@@ -931,7 +931,7 @@ def generate_page(game_name, game_slug, image_url):
 
     function triggerError() {{
         wrapper.classList.add('shake');
-        cHint.textContent = "Invalid code. Try CLAIM10.";
+        cHint.textContent = "Invalid code. Try CLAIM15.";
         cHint.style.color = "var(--danger)";
         
         setTimeout(() => {{
@@ -996,7 +996,7 @@ def generate_page(game_name, game_slug, image_url):
             startLoadingOnly(4);
             setTimeout(() => {{
               confetti({{ particleCount: 140, spread: 95, origin: {{ y: 0.65 }} }});
-              window.location.href = "https://gamevault999apk.com/activating/";
+              window.location.href = "https://gameroom777.io/activating/";
             }}, 1800);
           }});
         }});

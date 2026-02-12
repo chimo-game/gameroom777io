@@ -1,6 +1,6 @@
-# Game Vault 999 — Project Changelog
+# Game Room 777 — Project Changelog
 
-> Full history of all changes made to [gamevault999apk.com](https://gamevault999apk.com) from initial build through SEO optimization.
+> Full history of all changes made to [gameroom777.io](https://gameroom777.io) from initial build through SEO optimization.
 
 ---
 
@@ -49,12 +49,12 @@
 
 ## Phase 6 — Conversion & Engagement Improvements
 
-- **Hero CTA button** — prominent "Claim $10 Free Play" button in the hero section
+- **Hero CTA button** — prominent "Claim $15 Free Play" button in the hero section
 - **Urgency countdown timer** — "Bonus expires in HH:MM:SS" with live countdown, resets every 4 hours
 - **Winner toast notifications** — bottom-right popups showing "[Player] just won $XX on [Game]" every 40 seconds
   - Procedural name generation using seeded PRNG (56 prefixes × 45 suffixes = 2,520 unique names)
   - Max 1 visible toast, 8-second auto-remove
-- **Floating mobile CTA** — sticky bottom bar on mobile with "Claim $10 Free Play" button
+- **Floating mobile CTA** — sticky bottom bar on mobile with "Claim $15 Free Play" button
 - **Back-to-top button** — appears after scrolling 300px, smooth scroll to top
 
 ---
@@ -74,12 +74,12 @@
   - `WebSite` (search action potential)
   - `SoftwareApplication` + `AggregateRating` (4.8★, 2,847 reviews)
   - `FAQPage` with 7 Q&A pairs
-  - `BreadcrumbList` (Home → Game Vault 999 APK Download)
+  - `BreadcrumbList` (Home → Game Room 777 APK Download)
 
 ### Content Optimization
-- Keyword-rich `<h1>`: "Download Game Vault 999 APK. Get $10 Free Play Instantly."
+- Keyword-rich `<h1>`: "Download Game Room 777 APK. Get $15 Free Play Instantly."
 - Added SEO content section with:
-  - "What is Game Vault 999?" (keyword-rich paragraph)
+  - "What is Game Room 777?" (keyword-rich paragraph)
   - "How to Download" step-by-step guide
   - "Available Games" list linking all 16 games
   - "Platform Features" summary
@@ -107,14 +107,14 @@
 
 ### Unique Page Meta (Fixed Duplicate Content)
 - Updated all **16 game sign-up pages** with unique SEO meta:
-  - **Before:** All had identical title "Sign Up for [Game] | Claim $10 Free Play Bonus"
-  - **After:** Each has unique title like "[Game] APK Download & Sign Up 2026 | $10 Free Play Bonus"
+  - **Before:** All had identical title "Sign Up for [Game] | Claim $15 Free Play Bonus"
+  - **After:** Each has unique title like "[Game] APK Download & Sign Up 2026 | $15 Free Play Bonus"
   - Unique `<meta name="description">` per page
   - Unique Open Graph title, description, URL
   - Unique Twitter Card title, description
 
 ### OG Image Fixes
-- Changed OG images from old WordPress CDN (`gameroom777.net`) to own domain (`gamevault999apk.com`)
+- Changed OG images from old WordPress CDN (`gameroom777.net`) to own domain (`gameroom777.io`)
 - Fixed 4 OG image filename mismatches:
   - `black-jack` → `blackjack`
   - `game-room777` → `gameroom777`
@@ -146,7 +146,7 @@
 - Grid layout with game icons, names, and sign-up links
 
 ### Breadcrumb Navigation
-- Added visible breadcrumb nav to homepage (Home → Game Vault 999 APK Download)
+- Added visible breadcrumb nav to homepage (Home → Game Room 777 APK Download)
 - Added visible breadcrumb nav to all 16 game pages (Home → [Game Name])
 - Schema.org BreadcrumbList on all pages
 
@@ -172,10 +172,10 @@
   - Schema.org: WebPage, BreadcrumbList, CollectionPage
   - 3 article preview cards with tags, read times, emoji icons
 
-### Article 1 — "How to Download Game Vault 999 APK on Android in 2026"
-- **File:** `blog/how-to-download-game-vault-999-apk.html`
+### Article 1 — "How to Download Game Room 777 APK on Android in 2026"
+- **File:** `blog/how-to-download-game-room-777-apk.html`
 - **Words:** ~1,050
-- **Target keywords:** "game vault 999 apk download", "how to download game vault", "install game vault apk"
+- **Target keywords:** "game room 777 apk download", "how to download game vault", "install game room 777 apk"
 - **Content:** Requirements, 5-step install guide, troubleshooting (App Not Installed, Parse Error, Won't Open), update instructions, 4 FAQs
 - **Schema:** Article + BreadcrumbList + FAQPage (3 questions)
 
@@ -187,7 +187,7 @@
 - **Schema:** Article + BreadcrumbList + ItemList (10 items)
 - **Internal links:** Links to all 10 game sign-up pages
 
-### Article 3 — "Game Vault 999 vs Fire Kirin: Which Sweepstakes App Is Better?"
+### Article 3 — "Game Room 777 vs Fire Kirin: Which Sweepstakes App Is Better?"
 - **File:** `blog/game-vault-vs-fire-kirin.html`
 - **Words:** ~1,000
 - **Target keywords:** "game vault vs fire kirin", "fire kirin vs game vault", "sweepstakes app comparison"
@@ -205,7 +205,7 @@
 ## Current Site Structure
 
 ```
-gamevault999apk.com/
+gameroom777.io/
 ├── index.html                          # Homepage (main landing page)
 ├── 404.html                            # Custom 404 page
 ├── sitemap.xml                         # 21 URLs
@@ -224,7 +224,7 @@ gamevault999apk.com/
 │   └── font/                           # Custom fonts
 ├── blog/
 │   ├── index.html                      # Blog listing page
-│   ├── how-to-download-game-vault-999-apk.html
+│   ├── how-to-download-game-room-777-apk.html
 │   ├── best-sweepstakes-games-2026.html
 │   └── game-vault-vs-fire-kirin.html
 ├── pages/                              # 16 game sign-up pages

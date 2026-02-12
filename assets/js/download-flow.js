@@ -145,7 +145,7 @@
             <ion-icon name="shield-checkmark" style="font-size:48px;color:#f48120;"></ion-icon>\
           </div>\
           <h2>Verify you are human</h2>\
-          <p>gamevault999apk.com needs to verify you are human. This helps prevent automated access.</p>\
+          <p>gameroom777.io needs to verify you are human. This helps prevent automated access.</p>\
         </div>\
         <div class="dl-verification-content">\
           <div class="dl-turnstile-container">\

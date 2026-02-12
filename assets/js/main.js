@@ -1,5 +1,5 @@
 /* ================================================================
-   MAIN SCRIPT — Game Vault 999
+   MAIN SCRIPT — Game Room 777
    Live counters, member stats, and tracker bindings.
    ================================================================ */
 
@@ -8,7 +8,7 @@
 
   /* ===== CONFIG ===== */
   const BASE_DATE = new Date("2026-02-08T00:00:00");
-  const BASE_REG = 468000;
+  const BASE_REG = 512000;
 
   // Base member counts per game (as of BASE_DATE)
   // Each game has a unique growth "personality" (min/max daily gain range)
