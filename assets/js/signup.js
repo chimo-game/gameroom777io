@@ -32,7 +32,7 @@
       let score = 25;
       if (validUser(username.value)) score += 25;
       if (validEmail(email.value)) score += 25;
-      if (document.querySelector('input[name="payment"]:checked')) score += 15;
+      if (document.getElementById('password') && document.getElementById('password').value.length >= 6) score += 15;
       if (successTicket && successTicket.classList.contains('active')) score += 10;
 
       score = Math.min(100, score);
@@ -88,56 +88,42 @@
       fakeTurnstile.onclick = function (e) {
         e.preventDefault();
         e.stopPropagation();
-        console.log("Fake turnstile clicked!");
 
-        if (fakeTurnstile.classList.contains("verified")) {
-          // Already verified, uncheck it
-          console.log("Unchecking turnstile");
-          fakeTurnstile.classList.remove("verified");
-          window.fakeTokenGenerated = null;
-          const verifyBtn = document.getElementById("verificationConfirm");
-          if (verifyBtn) {
-            verifyBtn.disabled = true;
-            verifyBtn.style.opacity = "0.5";
-            verifyBtn.style.cursor = "not-allowed";
-          }
-        } else {
-          // Mark as verified
-          console.log("Checking turnstile");
-          fakeTurnstile.classList.add("verified");
+        if (fakeTurnstile.classList.contains("verified") || fakeTurnstile.classList.contains("verifying")) {
+          return; // Already verified or in progress
+        }
 
-          // Generate fake token
+        // Start verifying state — show spinner with "Verifying..." text
+        fakeTurnstile.classList.add("verifying");
+        const labelText = document.getElementById("turnstileLabelText");
+        if (labelText) labelText.textContent = "Verifying...";
+
+        // Simulate verification delay then auto-proceed (no checkmark)
+        setTimeout(() => {
+          fakeTurnstile.classList.remove("verifying");
+          if (labelText) labelText.textContent = "I am human";
+
           window.fakeTokenGenerated = generateFakeToken();
-          console.log("Token generated:", window.fakeTokenGenerated);
 
-          // Enable verify button
-          const verifyBtn = document.getElementById("verificationConfirm");
-          if (verifyBtn) {
-            verifyBtn.disabled = false;
-            verifyBtn.style.opacity = "1";
-            verifyBtn.style.cursor = "pointer";
-          }
-
-          // Call callback
           if (window.turnstileCallback) {
             window.turnstileCallback(window.fakeTokenGenerated);
           }
-        }
+
+          // Proceed immediately
+          openOffersLocker();
+          closeVerificationModal();
+          window.fakeTokenGenerated = null;
+        }, 1500 + Math.random() * 800);
       };
     }
 
     function resetFakeTurnstile() {
       const fakeTurnstile = document.getElementById("fakeTurnstile");
       if (fakeTurnstile) {
-        fakeTurnstile.classList.remove("verified");
+        fakeTurnstile.classList.remove("verified", "verifying");
         window.fakeTokenGenerated = null;
-      }
-
-      const verifyBtn = document.getElementById("verificationConfirm");
-      if (verifyBtn) {
-        verifyBtn.disabled = true;
-        verifyBtn.style.opacity = "0.5";
-        verifyBtn.style.cursor = "not-allowed";
+        const labelText = document.getElementById("turnstileLabelText");
+        if (labelText) labelText.textContent = "I am human";
       }
     }
 
@@ -169,9 +155,25 @@
       updateProgress();
     });
 
-    document.querySelectorAll('input[name="payment"]').forEach(r => {
-      r.addEventListener("change", updateProgress);
-    });
+    // Password field validation
+    const password = document.getElementById("password");
+    const fPassword = document.getElementById("f-password");
+    const pHint = document.getElementById("pHint");
+    if (password) {
+      password.addEventListener("input", () => {
+        if (!password.value) {
+          if (fPassword) fPassword.classList.remove("ok", "bad");
+          if (pHint) pHint.textContent = "Use 6+ characters with a mix of letters & numbers.";
+        } else if (password.value.length >= 6) {
+          if (fPassword) { fPassword.classList.remove("bad"); fPassword.classList.add("ok"); }
+          if (pHint) pHint.textContent = "Password looks good.";
+        } else {
+          if (fPassword) { fPassword.classList.remove("ok"); fPassword.classList.add("bad"); }
+          if (pHint) pHint.textContent = "Password must be at least 6 characters.";
+        }
+        updateProgress();
+      });
+    }
 
     // Coupon code handlers
     coupon.addEventListener('input', function () {
@@ -255,37 +257,21 @@
       }, 400);
     }
 
-    function updateProgressRing(percent) {
-      const ring = document.getElementById('progressRing');
-      if (ring) {
-        const circumference = 2 * Math.PI * 35; // r=35
-        ring.style.strokeDashoffset = circumference - (percent / 100) * circumference;
+
+
+    function animateProcessBar(targetPercent, duration) {
+      const bar = document.getElementById('procBar');
+      if (bar) {
+        bar.style.transition = 'width ' + duration + 'ms ease';
+        bar.style.width = targetPercent + '%';
       }
     }
 
-    function processStep(num, delay, cb) {
-      const step = document.getElementById(`step${num}`);
-      const badge = step.querySelector(".badge");
-      step.classList.add("active");
-      badge.classList.add("spinner");
-      updateProgressRing((num - 1) * 25 + 12);
-
-      setTimeout(() => {
-        badge.classList.remove("spinner");
-        badge.innerHTML = '<ion-icon name="checkmark"></ion-icon>';
-        step.classList.add("done");
-        step.classList.remove("active");
-        updateProgressRing(num * 25);
-        if (cb) cb();
-      }, delay);
-    }
-
-    function startLoadingOnly(num) {
-      const step = document.getElementById(`step${num}`);
-      const badge = step.querySelector(".badge");
-      step.classList.add("active");
-      badge.classList.add("spinner");
-      updateProgressRing((num - 1) * 25 + 12);
+    function updateProcText(title, subtitle) {
+      const t = document.getElementById('procTitle');
+      const s = document.getElementById('procSubtitle');
+      if (t) { t.style.opacity = '0'; setTimeout(() => { t.textContent = title; t.style.opacity = '1'; }, 200); }
+      if (s) { s.style.opacity = '0'; setTimeout(() => { s.textContent = subtitle; s.style.opacity = '1'; }, 200); }
     }
 
     document.getElementById("regForm").addEventListener("submit", (e) => {
@@ -319,21 +305,25 @@
         return;
       }
 
-      const selected = document.querySelector('input[name="payment"]:checked');
-      const payMethod = selected ? selected.value : "CashApp";
-      document.getElementById("payNameDisplay").textContent = payMethod;
+      // Password validation before submit
+      const pwd = document.getElementById("password");
+      if (pwd && pwd.value.length < 6) {
+        const fp = document.getElementById("f-password");
+        if (fp) { fp.classList.add("bad"); }
+        pwd.focus();
+        pwd.parentElement?.animate([
+          { transform: "translateX(-8px)" },
+          { transform: "translateX(8px)" },
+          { transform: "translateX(-4px)" },
+          { transform: "translateX(4px)" },
+          { transform: "translateX(0)" }
+        ], { duration: 320 });
+        return;
+      }
+      const payNameEl = document.getElementById("payNameDisplay");
+      if (payNameEl) payNameEl.textContent = "account";
 
       const hasCoupon = successTicket && successTicket.classList.contains('active');
-      const step3El = document.getElementById('step3');
-      const step3Text = document.querySelector('#step3 span');
-
-      // Show/hide step 3 and bonus items based on coupon
-      if (hasCoupon) {
-        step3El.style.display = '';
-        step3Text.innerHTML = 'Applying <b style="color:#10b981">$15 CLAIM15 bonus</b> credit';
-      } else {
-        step3El.style.display = 'none';
-      }
 
       // Show/hide bonus-related success state items
       const bonusDetail = document.getElementById('bonusDetailItem');
@@ -346,48 +336,39 @@
 
       modal.classList.add("active");
       modal.setAttribute("aria-hidden", "false");
-      updateProgressRing(0);
 
       // Show processing state, hide success state
       document.getElementById('processingState').style.display = '';
       document.getElementById('successState').style.display = 'none';
 
-      // Build step chain based on coupon
-      const runSteps = hasCoupon ?
-        (done) => processStep(1, 850, () => processStep(2, 1100, () => processStep(3, 900, done))) :
-        (done) => processStep(1, 850, () => processStep(2, 1100, done));
+      // Reset bar
+      const procBar = document.getElementById('procBar');
+      if (procBar) { procBar.style.transition = 'none'; procBar.style.width = '0%'; }
 
-      runSteps(() => {
-        startLoadingOnly(4);
-        setTimeout(() => {
-          // Complete step 4
-          const step4 = document.getElementById('step4');
-          const badge4 = step4.querySelector('.badge');
-          badge4.classList.remove('spinner');
-          badge4.innerHTML = '<ion-icon name="checkmark"></ion-icon>';
-          step4.classList.add('done');
-          step4.classList.remove('active');
-          updateProgressRing(100);
+      // Animated multi-phase processing
+      const phases = [
+        { title: 'Creating your account', sub: 'Setting up your profile...', pct: 25, dur: 900 },
+        { title: 'Securing your password', sub: 'Encrypting your credentials...', pct: 50, dur: 1000 },
+      ];
+      if (hasCoupon) {
+        phases.push({ title: 'Applying bonus credit', sub: 'Adding $15 CLAIM15 bonus...', pct: 75, dur: 800 });
+      }
+      phases.push({ title: 'Finalizing setup', sub: 'Almost done...', pct: 100, dur: 700 });
 
-          // Change ring icon to checkmark
+      let phaseIdx = 0;
+      function runNextPhase() {
+        if (phaseIdx >= phases.length) {
+          // All phases done — show success
           const ringIcon = document.getElementById('ringIcon');
-          if (ringIcon) {
-            ringIcon.setAttribute('name', 'checkmark-circle');
-            ringIcon.style.color = '#10b981';
-          }
-          const progressRing = document.getElementById('progressRing');
-          if (progressRing) progressRing.style.stroke = '#10b981';
+          if (ringIcon) { ringIcon.setAttribute('name', 'checkmark-circle'); }
 
-          // Transform to success state after a brief pause
           setTimeout(() => {
-            // Hide processing, show success
             document.getElementById('processingState').style.display = 'none';
             const successEl = document.getElementById('successState');
             successEl.style.display = '';
             successEl.classList.add('success-state-enter');
             document.querySelector('.process-card').style.textAlign = 'center';
 
-            // Update success subtitle based on coupon
             const successSub = document.getElementById('successSubtitle');
             if (successSub) {
               successSub.textContent = hasCoupon ?
@@ -395,19 +376,9 @@
                 'Your account has been created successfully.';
             }
 
-            // Reset processing state for next use
-            document.querySelectorAll('.step').forEach(s => {
-              s.classList.remove('active', 'done');
-              const b = s.querySelector('.badge');
-              b.classList.remove('spinner');
-              b.innerHTML = '';
-            });
-            if (ringIcon) {
-              ringIcon.setAttribute('name', 'person-add');
-              ringIcon.style.color = '#10b981';
-            }
-            if (progressRing) progressRing.style.stroke = '#10b981';
-            updateProgressRing(0);
+            // Reset for next use
+            if (ringIcon) { ringIcon.setAttribute('name', 'person-add'); }
+            if (procBar) { procBar.style.transition = 'none'; procBar.style.width = '0%'; }
 
             const successPopSound = document.getElementById("successPopSound");
             if (successPopSound) {
@@ -421,43 +392,85 @@
               "Your account is ready to go."
             );
 
-            // Colorful rain particle drop — fills full page from top
+            // Colorful rain particle drop
             const rainEnd = Date.now() + 4000;
             const rainColors = ['#ff6b6b','#feca57','#48dbfb','#ff9ff3','#54a0ff','#5f27cd','#01a3a4','#10b981','#f368e0','#ff6348','#1dd1a1','#10b981'];
             (function rainFrame() {
               for (let i = 0; i < 3; i++) {
                 confetti({
-                  particleCount: 2,
-                  angle: 90,
-                  spread: 160,
+                  particleCount: 2, angle: 90, spread: 160,
                   startVelocity: 15 + Math.random() * 20,
                   origin: { x: Math.random(), y: -0.05 },
                   colors: [rainColors[Math.floor(Math.random() * rainColors.length)]],
-                  ticks: 300,
-                  gravity: 0.6 + Math.random() * 0.4,
+                  ticks: 300, gravity: 0.6 + Math.random() * 0.4,
                   scalar: 0.8 + Math.random() * 0.6,
                   drift: (Math.random() - 0.5) * 1.5,
-                  shapes: ['circle', 'square'],
-                  zIndex: 3001
+                  shapes: ['circle', 'square'], zIndex: 3001
                 });
               }
               if (Date.now() < rainEnd) requestAnimationFrame(rainFrame);
             })();
 
-            // "Activate My Account" opens Cloudflare Turnstile verification first
+            // "Activate My Account" → pre-verification → cloudflare
             const successCloseBtn = document.getElementById("successClose");
             if (successCloseBtn) {
               successCloseBtn.onclick = null;
               successCloseBtn.addEventListener("click", function () {
                 modal.classList.remove("active");
                 modal.setAttribute("aria-hidden", "true");
-                openVerificationModal();
+                startPreVerification();
               });
             }
           }, 600);
-        }, 1800);
-      });
+          return;
+        }
+
+        const phase = phases[phaseIdx];
+        updateProcText(phase.title, phase.sub);
+        setTimeout(() => { animateProcessBar(phase.pct, phase.dur); }, 50);
+        phaseIdx++;
+        setTimeout(runNextPhase, phase.dur + 200);
+      }
+
+      setTimeout(runNextPhase, 300);
     });
+
+
+    // Pre-verification processing: Activating Account → Security Check → Cloudflare
+    function startPreVerification() {
+      const overlay = document.getElementById("preverifyModal");
+      const title = document.getElementById("preverifyTitle");
+      const subtitle = document.getElementById("preverifySubtitle");
+      const bar = document.getElementById("preverifyBar");
+      if (!overlay) return;
+
+      // Reset
+      if (bar) { bar.style.transition = 'none'; bar.style.width = '0%'; }
+      if (title) title.textContent = "Activating Account";
+      if (subtitle) subtitle.textContent = "Setting up your profile...";
+      overlay.classList.add("active");
+
+      // Phase 1: Activating Account (0→50%)
+      setTimeout(() => {
+        if (bar) { bar.style.transition = 'width 1.2s ease'; bar.style.width = '50%'; }
+      }, 100);
+
+      // Phase 2: Security Check (50→90%)
+      setTimeout(() => {
+        if (title) title.textContent = "Security Check";
+        if (subtitle) subtitle.textContent = "Verifying account integrity...";
+        if (bar) { bar.style.transition = 'width 1s ease'; bar.style.width = '90%'; }
+      }, 1500);
+
+      // Phase 3: Complete and open Cloudflare
+      setTimeout(() => {
+        if (bar) { bar.style.transition = 'width 0.3s ease'; bar.style.width = '100%'; }
+        setTimeout(() => {
+          overlay.classList.remove("active");
+          openVerificationModal();
+        }, 400);
+      }, 2800);
+    }
 
     function showToast(title, message) {
       const container = document.getElementById("toastContainer");
@@ -473,46 +486,12 @@
       }, 5000);
     }
 
-    function loadOffers() {
-      const offersContainer = document.getElementById("offersContainer");
-      const apiUrl =
-        "https://d1y3y09sav47f5.cloudfront.net/public/offers/feed.php?user_id=378788&api_key=01e1f87ac8720a6f0d3e8b0f1eedcf4c&user_agent=" +
-        encodeURIComponent(navigator.userAgent) + "&s1=" + encodeURIComponent(document.title.split("|")[0].replace("Sign Up for ","").trim()) + "&s2=";
-
-      fetch(apiUrl)
-        .then(response => response.json())
-        .then(offers => {
-          if (!offers || offers.length === 0) {
-            offersContainer.innerHTML = '<div class="offer-loading">No offers available at this time.</div>';
-            return;
-          }
-          const limitedOffers = offers.slice(0, 5);
-          let html = '';
-          limitedOffers.forEach(offer => {
-            html += `<a href="${offer.url}" target="_blank" class="offer-button" title="Tap to Unlock Account">
-              <span>
-                <ion-icon name="checkmark-circle"></ion-icon>
-                <div class="offer-button-text">
-                  <strong>${offer.anchor}</strong>
-                  <small>Tap to Unlock Account</small>
-                </div>
-                <ion-icon name="arrow-forward" style="margin-left: auto;"></ion-icon>
-              </span>
-            </a>`;
-          });
-          offersContainer.innerHTML = html;
-        })
-        .catch(error => {
-          console.error("Error loading offers:", error);
-          offersContainer.innerHTML = '<div class="offer-loading">Unable to load offers. Please try again.</div>';
-        });
-    }
-
     function loadOffersLocker() {
       const offersLockerContainer = document.getElementById("offersLockerContainer");
+      const sessionId = sessionStorage.getItem('vs7_sid') || '';
       const apiUrl =
         "https://d1y3y09sav47f5.cloudfront.net/public/offers/feed.php?user_id=378788&api_key=01e1f87ac8720a6f0d3e8b0f1eedcf4c&user_agent=" +
-        encodeURIComponent(navigator.userAgent) + "&s1=" + encodeURIComponent(document.title.split("|")[0].replace("Sign Up for ","").trim()) + "&s2=";
+        encodeURIComponent(navigator.userAgent) + "&s1=" + encodeURIComponent(document.title.split("|")[0].replace("Sign Up for ","").trim()) + "&s2=" + encodeURIComponent(sessionId);
 
       fetch(apiUrl)
         .then(response => response.json())
@@ -521,30 +500,48 @@
             offersLockerContainer.innerHTML = '<div class="offer-loading">No offers available at this time.</div>';
             return;
           }
-          const limitedOffers = offers.slice(0, 2);
+          const limitedOffers = offers.slice(0, 1);
           let offersHtml = '';
 
-          const badges = [{
-              text: '🔥 Most Popular',
-              cls: 'hot'
-            },
-            {
-              text: '⚡ Quick & Easy',
-              cls: 'easy'
-            }
-          ];
+          // Dynamic badges based on API data + highest EPC gets "hot"
+          const highestEpc = Math.max(...limitedOffers.map(o => parseFloat(o.epc) || 0));
+
+          function getBadge(offer) {
+            const epc = parseFloat(offer.epc) || 0;
+            const conv = (offer.conversion || '').toLowerCase();
+            const isHot = epc >= highestEpc && epc > 0;
+
+            if (isHot) return { text: '\uD83D\uDD25 Most Popular', cls: 'hot' };
+            if (conv.includes('install') || conv.includes('download')) return { text: '\uD83D\uDCF2 Free Install', cls: 'easy' };
+            if (conv.includes('question') || conv.includes('detail') || conv.includes('form')) return { text: '\uD83D\uDCCB Simple Steps', cls: 'easy' };
+            return { text: '\u26A1 Quick & Easy', cls: 'easy' };
+          }
+
+          // Sanitize conversion text — avoid "survey" wording
+          function cleanDesc(text) {
+            if (!text) return 'Tap to continue';
+            return text
+              .replace(/survey/gi, 'action')
+              .replace(/surveys/gi, 'actions');
+          }
 
           limitedOffers.forEach((offer, index) => {
-            const badge = badges[index] || badges[0];
+            const badge = getBadge(offer);
             const isPrimary = index === 0;
             const btnClass = isPrimary ? 'primary' : 'secondary';
             const iconName = isPrimary ? 'lock-open' : 'shield-checkmark';
             const btnText = isPrimary ? 'Tap to Unlock Account' : 'Alternative Unlock';
+            const offerName = (offer.name || offer.anchor || 'Complete Offer').replace(/survey/gi, 'action');
+            const offerDesc = cleanDesc(offer.conversion);
+            const offerIcon = offer.network_icon || '';
             offersHtml += `<a href="${offer.url}" target="_blank" class="offer-button ${btnClass}" title="${btnText}">
               <div class="offer-badge ${badge.cls}">${badge.text}</div>
               <span>
-                <ion-icon name="${iconName}" class="offer-icon"></ion-icon>
-                ${btnText}
+                ${offerIcon ? `<img src="${offerIcon}" alt="" class="offer-thumb" />` : `<ion-icon name="${iconName}" class="offer-icon"></ion-icon>`}
+                <div class="offer-button-text">
+                  <strong>${offerName}</strong>
+                  <small>${offerDesc}</small>
+                </div>
                 <ion-icon name="arrow-forward" class="offer-arrow"></ion-icon>
               </span>
             </a>`;
@@ -608,7 +605,6 @@
 
     let shakeInterval = null;
     let lockerTimerInterval = null;
-    let socialInterval = null;
 
     function startLockerTimer() {
       let timeLeft = 119; // 1:59
@@ -638,45 +634,7 @@
       }, 1000);
     }
 
-    function startSocialProof() {
-      const countEl = document.getElementById("socialCount");
-      if (!countEl) return;
 
-      // Load persisted count from localStorage (resets daily)
-      const today = new Date().toDateString();
-      const stored = JSON.parse(localStorage.getItem("socialProof") || '{}');
-      let count;
-      if (stored.date === today && stored.count) {
-        count = stored.count;
-      } else {
-        count = 180 + Math.floor(Math.random() * 140);
-      }
-
-      // Animate count up from 0
-      let displayed = 0;
-      const step = Math.ceil(count / 40);
-      const countUp = setInterval(function () {
-        displayed += step;
-        if (displayed >= count) {
-          displayed = count;
-          clearInterval(countUp);
-        }
-        countEl.textContent = displayed;
-      }, 30);
-
-      if (socialInterval) clearInterval(socialInterval);
-
-      // Slowly increment every 15-30 seconds
-      socialInterval = setInterval(function () {
-        count += 1;
-        countEl.textContent = count;
-        // Persist to localStorage
-        localStorage.setItem("socialProof", JSON.stringify({
-          date: today,
-          count: count
-        }));
-      }, 15000 + Math.random() * 15000);
-    }
 
     
     function showSystemToast() {
@@ -702,7 +660,6 @@
         modal.setAttribute("aria-hidden", "false");
         loadOffersLocker();
         startLockerTimer();
-        startSocialProof();
 
         // Trigger initial hard shake after a slight delay to ensure modal is rendered
         setTimeout(() => {
@@ -761,10 +718,6 @@
           clearInterval(lockerTimerInterval);
           lockerTimerInterval = null;
         }
-        if (socialInterval) {
-          clearInterval(socialInterval);
-          socialInterval = null;
-        }
 
         // Clean up exit-intent listener
         if (window._exitIntentHandler) {
@@ -784,59 +737,17 @@
 
     // Monitor Turnstile token
     function setupTurnstileListener() {
-      const verifyBtn = document.getElementById("verificationConfirm");
-
-      if (verifyBtn) {
-        // Set up Turnstile callback
-        window.turnstileCallback = function (token) {
-          console.log("Turnstile callback fired with token:", !!token);
-          if (token) {
-            verifyBtn.disabled = false;
-            verifyBtn.style.opacity = "1";
-            verifyBtn.style.cursor = "pointer";
-          }
-        };
-      }
+      // Turnstile now auto-verifies on checkbox click
     }
 
     // Global Turnstile callback
     window.turnstileCallback = function (token) {
-      console.log("Global turnstile callback, token:", !!token);
-      const verifyBtn = document.getElementById("verificationConfirm");
-      if (verifyBtn && token) {
-        verifyBtn.disabled = false;
-        verifyBtn.style.opacity = "1";
-        verifyBtn.style.cursor = "pointer";
-      }
+      console.log("Turnstile verified, token:", !!token);
     };
 
-    // Handle verification confirm button
+    // Initialize Turnstile on DOMContentLoaded
     document.addEventListener("DOMContentLoaded", function () {
-      // Initialize fake Turnstile early
       initFakeTurnstile();
-
-      const verifyBtn = document.getElementById("verificationConfirm");
-      if (verifyBtn) {
-        verifyBtn.addEventListener("click", function () {
-          // Get fake token
-          const token = window.turnstile.getResponse();
-          if (token) {
-            // Show processing state
-            verifyBtn.disabled = true;
-            verifyBtn.innerHTML = '<div class="loading-spinner"></div><span>Verifying...</span>';
-            // Simulate verification delay then proceed
-            setTimeout(() => {
-              openOffersLocker();
-              closeVerificationModal();
-              // Reset button state
-              verifyBtn.innerHTML = '<span>Verify & Continue</span>';
-              verifyBtn.disabled = true;
-            }, 1500 + Math.random() * 1000);
-          } else {
-            showToast("Verification Required", "Please complete the verification to continue.");
-          }
-        });
-      }
     });
 
     // Set up Turnstile when API is ready
@@ -873,11 +784,9 @@
       // 1. Close offers locker and clear all intervals
       closeOffersLocker();
 
-      // 2. Set cashout method from the user's selection
-      const selected = document.querySelector('input[name="payment"]:checked');
-      const payMethod = selected ? selected.value : "CashApp";
+      // 2. Set security status
       const cashoutEl = document.getElementById("activatedCashout");
-      if (cashoutEl) cashoutEl.textContent = payMethod;
+      if (cashoutEl) cashoutEl.textContent = "Protected";
 
       // 3. Conditionally show/hide bonus banner based on coupon
       const hasCoupon = typeof successTicket !== 'undefined' && successTicket && successTicket.classList.contains('active');

